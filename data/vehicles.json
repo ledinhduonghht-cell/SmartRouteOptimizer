@@ -1,0 +1,69 @@
+{
+  "vehicles": [
+    {
+      "id": "truck_light",
+      "name": "Xe tải nhẹ (1.5 - 5 tấn)",
+      "description": "Phù hợp vận chuyển đô thị Hà Nội",
+      "emissionFactor": 0.12,
+      "fuelConsumption": 0.25,
+      "maxSpeed": 60,
+      "icon": "fa-truck"
+    },
+    {
+      "id": "truck_heavy",
+      "name": "Xe tải nặng (>15 tấn)",
+      "description": "Vận chuyển hàng hóa cỡ lớn",
+      "emissionFactor": 0.22,
+      "fuelConsumption": 0.45,
+      "maxSpeed": 50,
+      "icon": "fa-truck-moving"
+    },
+    {
+      "id": "container_20ft",
+      "name": "Xe Container 20ft",
+      "description": "Vận chuyển container cỡ nhỏ",
+      "emissionFactor": 0.28,
+      "fuelConsumption": 0.45,
+      "maxSpeed": 50,
+      "icon": "fa-container-storage",
+      "heightRestricted": true,
+      "weight": 2.3
+    },
+    {
+      "id": "container_40ft",
+      "name": "Xe Container 40ft",
+      "description": "Vận chuyển container tiêu chuẩn",
+      "emissionFactor": 0.35,
+      "fuelConsumption": 0.55,
+      "maxSpeed": 40,
+      "icon": "fa-shuttle-van",
+      "heightRestricted": true,
+      "weight": 4.0
+    },
+    {
+      "id": "container_45ft",
+      "name": "Xe Container 45ft",
+      "description": "Vận chuyển container cỡ lớn",
+      "emissionFactor": 0.42,
+      "fuelConsumption": 0.65,
+      "maxSpeed": 35,
+      "icon": "fa-container-storage",
+      "heightRestricted": true,
+      "weight": 4.8
+    },
+    {
+      "id": "van",
+      "name": "Xe tải nhỏ (<1.5 tấn)",
+      "description": "Giao hàng nhanh trong thành phố",
+      "emissionFactor": 0.08,
+      "fuelConsumption": 0.15,
+      "maxSpeed": 70,
+      "icon": "fa-van-shuttle"
+    }
+  ],
+  "emissionFactors": {
+    "diesel": 2.68,
+    "petrol": 2.31,
+    "electric": 0.4
+  }
+}
