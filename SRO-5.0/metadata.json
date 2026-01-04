@@ -1,0 +1,9 @@
+{
+  "name": "SRO - Smart Route Optimizer",
+  "description": "Hệ thống tối ưu hóa tuyến đường vận tải thông minh tích hợp AI, giúp giảm phát thải CO2 và tối ưu chi phí logistics tại Hà Nội.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}
