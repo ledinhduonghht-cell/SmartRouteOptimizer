@@ -1,0 +1,203 @@
+{
+  "vehicles": [
+    {
+      "id": "van",
+      "name": "Xe tải nhỏ (<1.5 tấn)",
+      "description": "Giao hàng nhanh trong thành phố",
+      "emissionFactor": 0.08,
+      "fuelConsumption": 0.15,
+      "maxSpeed": 70,
+      "icon": "fa-van-shuttle",
+      "fuelType": "petrol"
+    },
+    {
+      "id": "truck_light",
+      "name": "Xe tải nhẹ (1.5 - 5 tấn)",
+      "description": "Phù hợp vận chuyển đô thị Hà Nội",
+      "emissionFactor": 0.12,
+      "fuelConsumption": 0.25,
+      "maxSpeed": 60,
+      "icon": "fa-truck",
+      "fuelType": "diesel"
+    },
+    {
+      "id": "truck_heavy",
+      "name": "Xe tải nặng (>15 tấn)",
+      "description": "Vận chuyển hàng hóa cỡ lớn",
+      "emissionFactor": 0.22,
+      "fuelConsumption": 0.45,
+      "maxSpeed": 50,
+      "icon": "fa-truck-moving",
+      "fuelType": "diesel"
+    },
+    {
+      "id": "container_20ft",
+      "name": "Xe Container 20ft",
+      "description": "Vận chuyển container cỡ nhỏ",
+      "emissionFactor": 0.28,
+      "fuelConsumption": 0.45,
+      "maxSpeed": 50,
+      "icon": "fa-container-storage",
+      "heightRestricted": true,
+      "weight": 2.3,
+      "fuelType": "diesel"
+    },
+    {
+      "id": "container_40ft",
+      "name": "Xe Container 40ft",
+      "description": "Vận chuyển container tiêu chuẩn",
+      "emissionFactor": 0.35,
+      "fuelConsumption": 0.55,
+      "maxSpeed": 40,
+      "icon": "fa-shuttle-van",
+      "heightRestricted": true,
+      "weight": 4.0,
+      "fuelType": "diesel"
+    },
+    {
+      "id": "container_45ft",
+      "name": "Xe Container 45ft",
+      "description": "Vận chuyển container cỡ lớn",
+      "emissionFactor": 0.42,
+      "fuelConsumption": 0.65,
+      "maxSpeed": 35,
+      "icon": "fa-container-storage",
+      "heightRestricted": true,
+      "weight": 4.8,
+      "fuelType": "diesel"
+    },
+    {
+      "id": "electric_van",
+      "name": "Xe tải điện (<1.5 tấn)",
+      "description": "Giao hàng nhanh trong thành phố, thân thiện môi trường",
+      "emissionFactor": 0.01,
+      "fuelConsumption": 0.18,
+      "maxSpeed": 70,
+      "icon": "fa-bolt",
+      "fuelType": "electric",
+      "batteryCapacity": 50,
+      "range": 200,
+      "chargingTimeFast": 1.5,
+      "chargingTimeSlow": 8
+    }
+  ],
+  "emissionFactors": {
+    "diesel": 2.68,
+    "petrol": 2.31,
+    "electric": 0.4
+  },
+  "chargingStations": [
+    {
+      "id": "cs_evn_hanoi",
+      "name": "Trạm sạc EVN Hà Nội",
+      "type": "fast",
+      "chargeSpeed": "50kW",
+      "chargingTime": "1-2 giờ",
+      "connectorType": "CCS2, CHAdeMO, Type2",
+      "address": "11 Cửa Bắc, Ba Đình, Hà Nội",
+      "coordinates": [21.0405, 105.8347],
+      "availablePlugs": 4,
+      "pricePerKwh": 3500,
+      "operatingHours": "24/7",
+      "icon": "fa-bolt"
+    },
+    {
+      "id": "cs_vinfast_tran_duy_hung",
+      "name": "Trạm sạc VinFast Trần Duy Hưng",
+      "type": "ultra_fast",
+      "chargeSpeed": "150kW",
+      "chargingTime": "30-45 phút",
+      "connectorType": "CCS2",
+      "address": "Tầng hầm B1, tòa nhà Vincom, Trần Duy Hưng",
+      "coordinates": [21.0094, 105.7954],
+      "availablePlugs": 6,
+      "pricePerKwh": 4500,
+      "operatingHours": "6:00 - 22:00",
+      "icon": "fa-charging-station"
+    },
+    {
+      "id": "cs_green_charging",
+      "name": "Trạm sạc Green Charging",
+      "type": "medium",
+      "chargeSpeed": "22kW",
+      "chargingTime": "3-4 giờ",
+      "connectorType": "Type2",
+      "address": "15 Láng Hạ, Ba Đình, Hà Nội",
+      "coordinates": [21.0223, 105.8345],
+      "availablePlugs": 8,
+      "pricePerKwh": 3000,
+      "operatingHours": "24/7",
+      "icon": "fa-leaf"
+    },
+    {
+      "id": "cs_cau_giay",
+      "name": "Trạm sạc Cầu Giấy",
+      "type": "fast",
+      "chargeSpeed": "50kW",
+      "chargingTime": "1-2 giờ",
+      "connectorType": "CCS2, Type2",
+      "address": "Số 1 Phạm Văn Bạch, Cầu Giấy",
+      "coordinates": [21.0333, 105.7994],
+      "availablePlugs": 4,
+      "pricePerKwh": 3500,
+      "operatingHours": "24/7",
+      "icon": "fa-bolt"
+    },
+    {
+      "id": "cs_ho_tay",
+      "name": "Trạm sạc Hồ Tây",
+      "type": "slow",
+      "chargeSpeed": "7kW",
+      "chargingTime": "6-8 giờ",
+      "connectorType": "Type2",
+      "address": "Đường Thanh Niên, Tây Hồ, Hà Nội",
+      "coordinates": [21.0464, 105.8267],
+      "availablePlugs": 10,
+      "pricePerKwh": 2500,
+      "operatingHours": "24/7",
+      "icon": "fa-car-battery"
+    },
+    {
+      "id": "cs_times_city",
+      "name": "Trạm sạc Times City",
+      "type": "fast",
+      "chargeSpeed": "60kW",
+      "chargingTime": "1-2 giờ",
+      "connectorType": "CCS2, CHAdeMO",
+      "address": "458 Minh Khai, Hai Bà Trưng, Hà Nội",
+      "coordinates": [20.9956, 105.8643],
+      "availablePlugs": 3,
+      "pricePerKwh": 3800,
+      "operatingHours": "8:00 - 22:00",
+      "icon": "fa-charging-station"
+    },
+    {
+      "id": "cs_aeon_mall",
+      "name": "Trạm sạc AEON Mall Hà Đông",
+      "type": "medium",
+      "chargeSpeed": "22kW",
+      "chargingTime": "3-4 giờ",
+      "connectorType": "Type2",
+      "address": "AEON Mall, Hà Đông, Hà Nội",
+      "coordinates": [20.9608, 105.7647],
+      "availablePlugs": 6,
+      "pricePerKwh": 3200,
+      "operatingHours": "9:00 - 21:00",
+      "icon": "fa-shopping-cart"
+    },
+    {
+      "id": "cs_giga_mall",
+      "name": "Trạm sạc Giga Mall",
+      "type": "ultra_fast",
+      "chargeSpeed": "120kW",
+      "chargingTime": "30-60 phút",
+      "connectorType": "CCS2",
+      "address": "Giga Mall, đường Lê Quang Đạo, Hà Nội",
+      "coordinates": [21.0392, 105.7826],
+      "availablePlugs": 4,
+      "pricePerKwh": 5000,
+      "operatingHours": "24/7",
+      "icon": "fa-tachometer-alt"
+    }
+  ]
+}

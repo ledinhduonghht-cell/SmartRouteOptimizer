@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Route Optimizer - Tối ưu tuyến đường vận tải Hà Nội</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Nút toggle sidebar cho mobile -->
+    <button id="toggleSidebar" class="toggle-sidebar">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-route"></i>
+                <h1>Smart Route Optimizer</h1>
+                <p class="subtitle">Tối ưu tuyến đường vận tải thông minh Hà Nội</p>
+            </div>
+
+            <!-- GPS Tracker Section -->
+            <div class="section">
+                <h2><i class="fas fa-satellite"></i> Theo dõi GPS</h2>
+                <div class="gps-info">
+                    <div class="info-item">
+                        <span>Vĩ độ:</span>
+                        <span id="latitude">21.0285</span>
+                    </div>
+                    <div class="info-item">
+                        <span>Kinh độ:</span>
+                        <span id="longitude">105.8542</span>
+                    </div>
+                    <div class="info-item">
+                        <span>Tốc độ:</span>
+                        <span id="speed">0 km/h</span>
+                    </div>
+                    <div class="info-item">
+                        <span>Độ chính xác:</span>
+                        <span id="accuracy">N/A</span>
+                    </div>
+                </div>
+                <button id="gpsBtn" class="btn btn-primary">
+                    <i class="fas fa-map-marker-alt"></i> Bật theo dõi GPS
+                </button>
+            </div>
+
+            <!-- Vehicle Information -->
+            <div class="section">
+                <h2><i class="fas fa-truck"></i> Thông tin xe</h2>
+                <div class="form-group">
+                    <label for="vehicleType">Loại xe:</label>
+                    <select id="vehicleType" class="form-control">
+                        <option value="">Chọn loại xe</option>
+                        <!-- Options sẽ được thêm bằng JavaScript -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="vehicleAge">Khấu hao xe (năm):</label>
+                    <div class="range-container">
+                        <input type="range" id="vehicleAge" class="form-control-range" min="0" max="20" value="0">
+                        <span id="vehicleAgeValue">0 năm</span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="loadWeight">Trọng tải hàng (tấn):</label>
+                    <div class="range-container">
+                        <input type="range" id="loadWeight" class="form-control-range" min="0" max="40" value="0">
+                        <span id="loadWeightValue">0 tấn</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Route Information -->
+            <div class="section">
+                <h2><i class="fas fa-route"></i> Thông tin tuyến đường</h2>
+                <div class="form-group">
+                    <label for="startPoint">Điểm xuất phát:</label>
+                    <input type="text" id="startPoint" class="form-control" placeholder="Nhập địa chỉ hoặc chọn trên bản đồ">
+                </div>
+                
+                <div class="form-group">
+                    <label for="endPoint">Điểm đến:</label>
+                    <input type="text" id="endPoint" class="form-control" placeholder="Nhập địa chỉ hoặc chọn trên bản đồ">
+                </div>
+                
+                <button id="calculateRoute" class="btn btn-success">
+                    <i class="fas fa-calculator"></i> Tính toán tuyến đường
+                </button>
+            </div>
+
+            <!-- Results -->
+            <div class="section results">
+                <h2><i class="fas fa-chart-line"></i> Kết quả phân tích</h2>
+                
+                <div class="result-item">
+                    <div class="result-label">Quãng đường:</div>
+                    <div class="result-value" id="distance">-- km</div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-label">Thời gian dự kiến:</div>
+                    <div class="result-value" id="duration">-- phút</div>
+                </div>
+                
+                <div class="result-item highlight">
+                    <div class="result-label">Lượng CO2:</div>
+                    <div class="result-value" id="co2">-- kg</div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-label">Chi phí ước tính:</div>
+                    <div class="result-value" id="fuelCost">-- VNĐ</div>
+                </div>
+                
+                <div class="traffic-info">
+                    <h3><i class="fas fa-info-circle"></i> Thông tin môi trường</h3>
+                    <div id="trafficStatus" class="status normal">
+                        <i class="fas fa-check-circle"></i> Giao thông: Đang cập nhật
+                    </div>
+                    <div id="weatherStatus" class="status">
+                        <i class="fas fa-cloud-sun"></i> Thời tiết: Đang cập nhật
+                    </div>
+                </div>
+
+                <!-- Thêm phần thông tin sạc điện -->
+                <div class="charging-info" id="chargingSection" style="display: none;">
+                    <h3><i class="fas fa-charging-station"></i> Thông tin sạc điện</h3>
+                    <div class="result-item">
+                        <div class="result-label">Năng lượng cần:</div>
+                        <div class="result-value" id="energyNeeded">-- kWh</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Thời gian sạc:</div>
+                        <div class="result-value" id="chargingTime">-- phút</div>
+                    </div>
+                    <div class="result-item highlight">
+                        <div class="result-label">Chi phí sạc:</div>
+                        <div class="result-value" id="chargingCost">-- VNĐ</div>
+                    </div>
+                    <div id="chargingStationsList" class="stations-list">
+                        <!-- Danh sách trạm sạc sẽ được thêm bằng JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Recommendations -->
+            <div class="section ai-recommendations">
+                <h2><i class="fas fa-robot"></i> Đề xuất AI</h2>
+                <div id="aiSuggestions">
+                    <p><i class="fas fa-lightbulb"></i> Nhập điểm xuất phát và điểm đến để nhận đề xuất tối ưu...</p>
+                </div>
+                <button id="optimizeRoute" class="btn btn-ai">
+                    <i class="fas fa-magic"></i> Tối ưu hóa với AI
+                </button>
+            </div>
+
+            <!-- Export Button -->
+            <div class="section">
+                <button id="exportBtn" class="btn btn-export">
+                    <i class="fas fa-download"></i> Xuất dữ liệu tuyến đường
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Map Area -->
+        <div class="main-content">
+            <div class="map-header">
+                <div class="header-controls">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Tìm địa điểm tại Hà Nội..." id="searchInput">
+                        <div id="searchSuggestions" class="search-suggestions"></div>
+                    </div>
+                    <div class="map-controls">
+                        <button id="locateMe" class="map-btn" title="Định vị vị trí của tôi">
+                            <i class="fas fa-location-arrow"></i>
+                        </button>
+                        <button id="showHanoiLocations" class="map-btn active" title="Hiển thị kho và cảng Hà Nội">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </button>
+                        <!-- Thêm nút hiển thị trạm sạc -->
+                        <button id="showChargingStations" class="map-btn" title="Hiển thị trạm sạc điện">
+                            <i class="fas fa-charging-station"></i>
+                        </button>
+                        <button id="toggleTraffic" class="map-btn" title="Hiển thị giao thông">
+                            <i class="fas fa-traffic-light"></i>
+                        </button>
+                        <button id="zoomIn" class="map-btn"><i class="fas fa-plus"></i></button>
+                        <button id="zoomOut" class="map-btn"><i class="fas fa-minus"></i></button>
+                        <button id="clearRoute" class="map-btn" title="Xóa tuyến đường">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="route-options">
+                    <div class="option active" data-route="fastest">
+                        <i class="fas fa-bolt"></i> Nhanh nhất
+                    </div>
+                    <div class="option" data-route="economic">
+                        <i class="fas fa-dollar-sign"></i> Tiết kiệm nhất
+                    </div>
+                    <div class="option" data-route="eco">
+                        <i class="fas fa-leaf"></i> Xanh nhất
+                    </div>
+                    <div class="option" data-route="truck">
+                        <i class="fas fa-truck"></i> Cho xe tải
+                    </div>
+                </div>
+            </div>
+
+            <!-- Map Container -->
+            <div id="map"></div>
+
+            <!-- Bottom Panel -->
+            <div class="bottom-panel">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-road"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">Tổng quãng đường</div>
+                            <div class="stat-value" id="totalDistance">0 km</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-gas-pump"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">Tiêu thụ nhiên liệu</div>
+                            <div class="stat-value" id="fuelConsumption">0 L</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-smog"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">CO2 tiết kiệm được</div>
+                            <div class="stat-value" id="co2Saved">0 kg</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">Thời gian tiết kiệm</div>
+                            <div class="stat-value" id="timeSaved">0 phút</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alerts-panel">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Cảnh báo & Sự kiện Hà Nội</h3>
+                    <div id="alertsContainer">
+                        <div class="alert-item">
+                            <i class="fas fa-car-crash"></i>
+                            <span>Lưu ý: Xe tải hạn chế vào nội đô 6h-22h</span>
+                        </div>
+                        <div class="alert-item">
+                            <i class="fas fa-road"></i>
+                            <span>Thi công: Đường Võ Chí Công đến 30/12</span>
+                        </div>
+                        <div class="alert-item">
+                            <i class="fas fa-traffic-light"></i>
+                            <span>Kẹt xe: Các tuyến vào trung tâm sáng 7-9h</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-content">
+            <i class="fas fa-spinner fa-spin fa-3x"></i>
+            <p>Đang tải dữ liệu...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="api/mock-api.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
